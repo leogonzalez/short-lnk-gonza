@@ -1,22 +1,20 @@
-import { Template } from 'meteor/templating';
-import { ReactiveVar } from 'meteor/reactive-var';
+import { Meteor } from 'meteor/meteor';
+import ReactDOM from 'react-dom';
+import { Tracker } from 'meteor/tracker';
+import { routes, onAuthChange} from '../imports/routes/Routes.js';
+import '../imports/startup/simple-schema-configuration.js';
+import { Session } from 'meteor/session';
 
-import './main.html';
-
-Template.hello.onCreated(function helloOnCreated() {
-  // counter starts at 0
-  this.counter = new ReactiveVar(0);
+Tracker.autorun(() => {
+  const isAuthenticated = !!Meteor.userId();
+  onAuthChange(isAuthenticated);
 });
 
-Template.hello.helpers({
-  counter() {
-    return Template.instance().counter.get();
-  },
-});
+//call tracker
 
-Template.hello.events({
-  'click button'(event, instance) {
-    // increment the counter when button is clicked
-    instance.counter.set(instance.counter.get() + 1);
-  },
+// Stateless functional Component - (presentational component)
+
+Meteor.startup(() => {
+  Session.set('showVisible',true);
+  ReactDOM.render(routes, document.getElementById('app'));
 });
