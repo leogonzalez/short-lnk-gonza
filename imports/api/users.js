@@ -1,6 +1,6 @@
 import { Meteor } from 'meteor/meteor';
 import SimpleSchema from 'simpl-schema';
-import { Accunts } from 'meteor/accounts-base';
+import { Accounts } from 'meteor/accounts-base';
 
 Accounts.validateNewUser((user) => {
   const email = user.emails[0].address;
